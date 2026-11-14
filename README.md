@@ -3,8 +3,12 @@
 إعادة تصوّر لموقع **مجموعة عمران تك** بأسلوب حديث، باللغتين العربية والإنجليزية.
 هذا المشروع هو حلّي **للخيار الأول (موقع شركة هندسية)** في الاختبار العملي لوظيفة مطور ومصمم مواقع ويب.
 
-- **العرض المباشر (Live Demo):** _(يُضاف الرابط بعد النشر)_
-- **المستودع (Git Repository):** _(يُضاف الرابط بعد الرفع)_
+- **العرض المباشر (Live Demo):** https://hajerbakhurji.github.io/omran-tech-assignment/
+  - العربي: https://hajerbakhurji.github.io/omran-tech-assignment/ar/index.html
+  - الإنجليزي: https://hajerbakhurji.github.io/omran-tech-assignment/en/index.html
+- **المستودع (Git Repository):** https://github.com/hajerbakhurji/omran-tech-assignment
+
+الموقع يُنشر تلقائيًا على GitHub Pages عند كل تحديث، عن طريق GitHub Actions (`.github/workflows/deploy.yml`): يبني الصفحات، ويفحص الروابط، ثم ينشر.
 
 ---
 
