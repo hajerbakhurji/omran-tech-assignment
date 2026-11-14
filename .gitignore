@@ -1,0 +1,17 @@
+# The built site. GitHub Actions builds it again on every push.
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# PyCharm personal settings (the shared run configurations are kept)
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf/
+.idea/*.iws
+
+# System files
+Thumbs.db
+desktop.ini
+.DS_Store
