@@ -12,9 +12,7 @@ COMPANY = {
     ],
 }
 
-# The AI assistant has its own website. Change this link when it's ready.
-AI_URL = "https://ai.omrantech.com"
-
+# AI assistant. The page is ai.html and the answers come from api/chat.py
 AI = {
     "en": {
         "nav": "AI Assistant",
@@ -37,7 +35,31 @@ AI = {
         ],
         "chat_input": "Ask anything about building...",
         "contact_title": "Need a quick answer?",
-        "contact_text": "Ask our AI assistant on its own website.",
+        "contact_text": "Ask our AI assistant about our services and projects.",
+
+        "page_title": "Ask Omran Tech AI",
+        "page_intro": "Ask about our services, past projects, Light Gauge Steel or how to start your project. Answers are instant, in Arabic or English.",
+        "welcome": "Hi! I'm the Omran Tech assistant. Ask me about our services, projects or modern building methods.",
+        "placeholder": "Type your question...",
+        "send": "Send",
+        "suggestions_title": "Try asking",
+        "suggestions": [
+            "What is Light Gauge Steel construction?",
+            "Which of your services fit a residential villa?",
+            "Tell me about your fuel station projects",
+            "How do I start a project with you?",
+        ],
+        "disclaimer": "Answers are written by AI and may contain mistakes. For quotes and final details, please contact our team.",
+        "questions_left": "questions left",
+        "new_chat": "New conversation",
+        "errors": {
+            "too_long": "Your question is too long. Please keep it under 500 characters.",
+            "limit_reached": "You've reached the question limit for this conversation. Start a new one, or contact our team.",
+            "busy": "The assistant is busy right now. Please try again in a minute.",
+            "refused": "Sorry, I can't help with that. Please ask about our services or projects.",
+            "not_configured": "The assistant isn't available on this copy of the site. Please contact our team.",
+            "default": "The assistant isn't available right now. Please try again later or contact our team.",
+        },
     },
     "ar": {
         "nav": "المساعد الذكي",
@@ -60,7 +82,31 @@ AI = {
         ],
         "chat_input": "اسأل أي شيء عن البناء...",
         "contact_title": "تحتاج إجابة سريعة؟",
-        "contact_text": "اسأل مساعدنا الذكي على موقعه الخاص.",
+        "contact_text": "اسأل مساعدنا الذكي عن خدماتنا ومشاريعنا.",
+
+        "page_title": "اسأل مساعد عمران تك الذكي",
+        "page_intro": "اسأل عن خدماتنا ومشاريعنا السابقة والبناء بالحديد البارد أو كيف تبدأ مشروعك. إجابات فورية بالعربي أو الإنجليزي.",
+        "welcome": "أهلًا! أنا مساعد عمران تك. اسألني عن خدماتنا أو مشاريعنا أو تقنيات البناء الحديث.",
+        "placeholder": "اكتب سؤالك...",
+        "send": "إرسال",
+        "suggestions_title": "جرّب أن تسأل",
+        "suggestions": [
+            "ما هو البناء بالحديد البارد؟",
+            "أي خدماتكم تناسب فيلا سكنية؟",
+            "حدثني عن مشاريع محطات الوقود",
+            "كيف أبدأ مشروعي معكم؟",
+        ],
+        "disclaimer": "الإجابات مكتوبة بالذكاء الاصطناعي وقد تحتوي على أخطاء. لعروض الأسعار والتفاصيل النهائية، يرجى التواصل مع فريقنا.",
+        "questions_left": "أسئلة متبقية",
+        "new_chat": "محادثة جديدة",
+        "errors": {
+            "too_long": "سؤالك طويل جدًا. يرجى ألا يتجاوز 500 حرف.",
+            "limit_reached": "وصلت للحد الأقصى من الأسئلة في هذه المحادثة. ابدأ محادثة جديدة أو تواصل مع فريقنا.",
+            "busy": "المساعد مشغول حاليًا. يرجى المحاولة بعد دقيقة.",
+            "refused": "عذرًا، لا أستطيع المساعدة في هذا. اسألني عن خدماتنا أو مشاريعنا.",
+            "not_configured": "المساعد غير متاح في هذه النسخة من الموقع. يرجى التواصل مع فريقنا.",
+            "default": "المساعد غير متاح حاليًا. يرجى المحاولة لاحقًا أو التواصل مع فريقنا.",
+        },
     },
 }
 

@@ -247,4 +247,117 @@ document.querySelectorAll("video[data-autoplay]").forEach((video) => {
 });
 
 
+// AI assistant chat (ai.html)
+// The browser only talks to our own server at /api/chat. The server talks to Claude.
+const chatForm = document.getElementById("chat-form");
+
+if (chatForm) {
+  const settings = JSON.parse(document.getElementById("chat-settings").textContent);
+  const messageList = document.getElementById("chat-messages");
+  const input = document.getElementById("chat-input");
+  const sendButton = chatForm.querySelector(".chat-send");
+  const suggestions = document.getElementById("chat-suggestions");
+  const questionsLeft = document.getElementById("chat-left");
+  const welcomeMessage = messageList.innerHTML;
+
+  let history = [];   // the conversation so far, sent with every question
+  let waiting = false;
+
+  function addMessage(text, type) {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-msg chat-msg--" + type;
+    bubble.textContent = text;   // textContent (not innerHTML) so an answer can never inject HTML
+    messageList.appendChild(bubble);
+    messageList.scrollTop = messageList.scrollHeight;
+    return bubble;
+  }
+
+  function questionsAsked() {
+    return history.filter((m) => m.role === "user").length;
+  }
+
+  async function ask(question) {
+    question = question.trim();
+    if (!question || waiting) return;
+
+    if (questionsAsked() >= settings.maxQuestions) {
+      addMessage(settings.errors.limit_reached, "error");
+      return;
+    }
+
+    addMessage(question, "user");
+    suggestions.hidden = true;
+    input.value = "";
+    input.style.height = "";
+    waiting = true;
+    sendButton.disabled = true;
+
+    const typing = addMessage("", "bot");
+    typing.classList.add("chat-typing");
+    typing.innerHTML = "<i></i><i></i><i></i>";
+
+    const messages = [...history, { role: "user", content: question }];
+    let reply = null;
+    let error = "default";
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages }),
+      });
+      const data = await response.json();
+      if (data.reply) reply = data.reply;
+      else if (data.error) error = data.error;
+    } catch (e) {
+      // no server (for example on GitHub Pages) or no internet
+    }
+
+    typing.remove();
+    if (reply) {
+      history = [...messages, { role: "assistant", content: reply }];
+      addMessage(reply, "bot");
+    } else {
+      addMessage(settings.errors[error] || settings.errors.default, "error");
+    }
+
+    questionsLeft.textContent = settings.maxQuestions - questionsAsked();
+    waiting = false;
+    sendButton.disabled = false;
+    input.focus();
+  }
+
+  chatForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    ask(input.value);
+  });
+
+  // Enter sends, Shift+Enter adds a new line
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      ask(input.value);
+    }
+  });
+
+  // the text box grows with the question
+  input.addEventListener("input", () => {
+    input.style.height = "";
+    input.style.height = Math.min(input.scrollHeight, 160) + "px";
+  });
+
+  suggestions.querySelectorAll(".chat-chip").forEach((chip) => {
+    chip.addEventListener("click", () => ask(chip.textContent));
+  });
+
+  document.getElementById("chat-new").addEventListener("click", () => {
+    history = [];
+    messageList.innerHTML = welcomeMessage;
+    suggestions.hidden = false;
+    questionsLeft.textContent = settings.maxQuestions;
+    input.focus();
+  });
+}
+
+
 document.getElementById("year").textContent = new Date().getFullYear();

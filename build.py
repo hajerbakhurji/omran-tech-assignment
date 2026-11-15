@@ -149,8 +149,8 @@ def header(page, other_path):
         nav += f'<a href="{page.url(key + ".html")}"{current}>{escape(label)}</a>'
         mobile_nav += f'<a class="m-link" href="{page.url(key + ".html")}"{current}>{escape(label)}{ARROW}</a>'
 
-    mobile_nav += f'''<a class="m-link m-link--ai" href="{AI_URL}" target="_blank" rel="noopener">
-      <span>{icon("spark", "ai-ic")} {escape(ai["nav"])} <span class="ai-badge">{escape(ai["badge"])}</span></span>{icon("external", "ext-ic")}</a>'''
+    mobile_nav += f'''<a class="m-link m-link--ai" href="{page.url("ai.html")}">
+      <span>{icon("spark", "ai-ic")} {escape(ai["nav"])} <span class="ai-badge">{escape(ai["badge"])}</span></span></a>'''
 
     return f'''<a class="skip-link" href="#main">{escape(t["skip"])}</a>
 <header class="site-header">
@@ -161,7 +161,7 @@ def header(page, other_path):
     </a>
     <nav class="main-nav" aria-label="Main">{nav}</nav>
     <div class="header-actions">
-      <a class="ai-pill" href="{AI_URL}" target="_blank" rel="noopener" aria-label="{escape(ai["nav"])}">{icon("spark")}<span>{escape(ai["nav"])}</span><span class="ai-dot"></span></a>
+      <a class="ai-pill" href="{page.url("ai.html")}" aria-label="{escape(ai["nav"])}">{icon("spark")}<span>{escape(ai["nav"])}</span><span class="ai-dot"></span></a>
       <a class="lang-switch" href="{page.url(other_path, t["other"])}" lang="{t["other"]}">{escape(t["other_name"])}</a>
       <a class="btn btn--sm" href="{page.url("contact.html")}">{escape(t["start_project"])}</a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="{escape(t["menu"])}"
@@ -178,7 +178,7 @@ def header(page, other_path):
 def footer(page):
     t = page.t
     links = "".join(f'<li><a href="{page.url(key + ".html")}">{escape(label)}</a></li>' for key, label in t["nav"])
-    links += f'<li><a href="{AI_URL}" target="_blank" rel="noopener">{escape(page.ai["nav"])} ↗</a></li>'
+    links += f'<li><a href="{page.url("ai.html")}">{escape(page.ai["nav"])}</a></li>'
     branches = "".join(f'<li class="branch"><b>{escape(name)}</b>{escape(address)}</li>' for name, address in BRANCHES[page.lang])
     phones = "".join(f'<li><a class="ltr" href="tel:{p}">{p}</a></li>' for p in COMPANY["phones"])
     hours = "".join(f'<div><span>{escape(day)}</span><span class="ltr">{time}</span></div>' for day, time in t["hours_list"])
@@ -393,9 +393,9 @@ def ai_section(page):
       <h2 id="ai-title">{ai["title"]}</h2>
       <p class="lead mt-20">{escape(ai["text"])}</p>
       <ul class="ai-points">{points}</ul>
-      <a class="btn ai-btn" href="{AI_URL}" target="_blank" rel="noopener">{icon("spark")} {escape(ai["button"])} {icon("external", "ext-ic")}</a>
+      <a class="btn ai-btn" href="{page.url("ai.html")}">{icon("spark")} {escape(ai["button"])}</a>
     </div>
-    <a class="ai-chat reveal" data-delay="1" href="{AI_URL}" target="_blank" rel="noopener" aria-label="{escape(ai["button"])}">
+    <a class="ai-chat reveal" data-delay="1" href="{page.url("ai.html")}" aria-label="{escape(ai["button"])}">
       <div class="ai-chat-head">
         <span class="ai-avatar">{icon("spark")}</span>
         <div><b>{escape(ai["chat_name"])}</b><small><i class="ai-online"></i>{escape(ai["chat_status"])}</small></div>
@@ -808,6 +808,50 @@ def post_page(page, post):
     return layout(page, item["title"], first_paragraph(item["body"]) or label, body, other_path, post["image"])
 
 
+def ai_page(page):
+    ai = page.ai
+    suggestions = "".join(f'<button type="button" class="chat-chip">{escape(q)}</button>' for q in ai["suggestions"])
+
+    # texts the chat script needs (error messages etc.), passed as JSON
+    settings = json.dumps({"maxQuestions": 10, "errors": ai["errors"]}, ensure_ascii=False)
+
+    body = f'''{page_hero(page, ai["kicker"], ai["page_title"], ai["page_intro"], crumbs=[(ai["nav"], None)])}
+
+<section class="section pt-0">
+  <div class="wrap chat-wrap">
+    <div class="chat-card">
+      <div class="chat-head">
+        <span class="ai-avatar">{icon("spark")}</span>
+        <div><b>{escape(ai["chat_name"])}</b><small><i class="ai-online"></i>{escape(ai["chat_status"])}</small></div>
+        <button type="button" class="btn btn--sm btn--ghost chat-new" id="chat-new">{escape(ai["new_chat"])}</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages" aria-live="polite">
+        <div class="chat-msg chat-msg--bot">{escape(ai["welcome"])}</div>
+      </div>
+
+      <div class="chat-suggestions" id="chat-suggestions">
+        <span>{escape(ai["suggestions_title"])}</span>
+        {suggestions}
+      </div>
+
+      <form class="chat-form" id="chat-form">
+        <label class="visually-hidden" for="chat-input">{escape(ai["placeholder"])}</label>
+        <textarea id="chat-input" rows="1" maxlength="500" placeholder="{escape(ai["placeholder"])}" required></textarea>
+        <button class="chat-send" type="submit" aria-label="{escape(ai["send"])}">{icon("send")}</button>
+      </form>
+    </div>
+
+    <p class="chat-note"><span id="chat-left">10</span> {escape(ai["questions_left"])} · {escape(ai["disclaimer"])}</p>
+  </div>
+</section>
+
+<script id="chat-settings" type="application/json">{settings}</script>
+
+{call_to_action(page)}'''
+    return layout(page, ai["page_title"], ai["page_intro"], body, "ai.html")
+
+
 def contact_page(page):
     t = page.t
 
@@ -878,7 +922,7 @@ def contact_page(page):
         <p><a href="{COMPANY["linktree"]}" target="_blank" rel="noopener">Linktree</a></p></div></div>
       <div class="info-row"><span class="info-ic">{icon("pin")}</span><div><h3>{escape(t["branches"])}</h3><ul>{branches}</ul></div></div>
       <div class="info-row"><span class="info-ic">{icon("spark")}</span><div><h3>{escape(ai["contact_title"])}</h3><p>{escape(ai["contact_text"])}</p>
-        <p class="mt-12"><a class="btn btn--sm ai-btn" href="{AI_URL}" target="_blank" rel="noopener">{escape(ai["button"])} {icon("external", "ext-ic")}</a></p></div></div>
+        <p class="mt-12"><a class="btn btn--sm ai-btn" href="{page.url("ai.html")}">{escape(ai["button"])}</a></p></div></div>
       <div class="info-row"><span class="info-ic">{icon("clock")}</span><div><h3>{escape(t["hours"])}</h3><div class="hours">{hours}</div></div></div>
     </div>
     <div class="form-card reveal" data-delay="1">
@@ -927,6 +971,7 @@ def main():
             "services.html": services_page,
             "projects.html": projects_page,
             "contact.html": contact_page,
+            "ai.html": ai_page,
             "news.html": lambda page: posts_page(page, "news"),
             "articles.html": lambda page: posts_page(page, "articles"),
         }

@@ -1,0 +1,11 @@
+{
+  "framework": null,
+  "buildCommand": "python3 build.py",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/chat.py": {
+      "maxDuration": 60,
+      "includeFiles": "api/knowledge.md"
+    }
+  }
+}
