@@ -5,11 +5,10 @@ COMPANY = {
     "email": "info@omrantech.com",
     "phones": ["+966564623847", "+966563314948", "+966920017424"],
     "linktree": "https://linktr.ee/omran_tech_group",
+    # Social accounts: (English name, Arabic name, X link, Instagram link)
     "social": [
-        ("X", "https://twitter.com/hkym_11", "x"),
-        ("Instagram", "https://www.instagram.com/hkym_112/", "instagram"),
-        ("X - Dr. Ali Al-Jouf", "https://twitter.com/dralialjouf", "x"),
-        ("Instagram - Dr. Ali Al-Jouf", "https://www.instagram.com/dr_alialjouf/", "instagram"),
+        ("Hakeem Al-Emaar", "حكيم الإعمار", "https://twitter.com/hkym_11", "https://www.instagram.com/hkym_112/"),
+        ("Dr. Ali Al-Jouf Office", "مكتب د. علي الجوف", "https://twitter.com/dralialjouf", "https://www.instagram.com/dr_alialjouf/"),
     ],
 }
 

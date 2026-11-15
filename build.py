@@ -182,9 +182,15 @@ def footer(page):
     branches = "".join(f'<li class="branch"><b>{escape(name)}</b>{escape(address)}</li>' for name, address in BRANCHES[page.lang])
     phones = "".join(f'<li><a class="ltr" href="tel:{p}">{p}</a></li>' for p in COMPANY["phones"])
     hours = "".join(f'<div><span>{escape(day)}</span><span class="ltr">{time}</span></div>' for day, time in t["hours_list"])
-    socials = "".join(f'<a href="{url}" target="_blank" rel="noopener" aria-label="{name}">{SOCIAL_ICONS[kind]}</a>'
-                      for name, url, kind in COMPANY["social"])
-    socials += f'<a href="{COMPANY["linktree"]}" target="_blank" rel="noopener" aria-label="Linktree">{icon("link")}</a>'
+    socials = ""
+    for name_en, name_ar, x_url, instagram_url in COMPANY["social"]:
+        name = name_en if page.lang == "en" else name_ar
+        socials += f'''<div class="social-row">
+  <span>{escape(name)}</span>
+  <a href="{x_url}" target="_blank" rel="noopener" aria-label="{escape(name)} on X">{SOCIAL_ICONS["x"]}</a>
+  <a href="{instagram_url}" target="_blank" rel="noopener" aria-label="{escape(name)} on Instagram">{SOCIAL_ICONS["instagram"]}</a>
+</div>'''
+    socials += f'<div class="social-row"><span>Linktree</span><a href="{COMPANY["linktree"]}" target="_blank" rel="noopener" aria-label="Linktree">{icon("link")}</a></div>'
 
     return f'''<footer class="site-footer">
   <div class="wrap">

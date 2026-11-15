@@ -485,7 +485,9 @@ h1 em, h2 em { font-style: normal; color: var(--red); }
 .site-footer a:hover { color: var(--red); }
 .site-footer .branch b { display: block; color: var(--text-on-dark); font-weight: 600; }
 .site-footer .branch { color: var(--muted-on-dark); font-size: .9rem; line-height: 1.5; }
-.socials { display: flex; gap: 8px; flex-wrap: wrap; }
+.socials { display: grid; gap: 10px; }
+.social-row { display: flex; align-items: center; gap: 8px; }
+.social-row span { flex: 1; color: #c8ced4; font-size: .9rem; }
 .socials a { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line-dark); border-radius: 50%; transition: all .2s; }
 .socials a:hover { background: var(--red); border-color: var(--red); color: #fff; }
 .socials svg { width: 18px; height: 18px; }
@@ -749,6 +751,8 @@ html:not(.js) .ai-msg { opacity: 1; transform: none; }
 .gallery-title { margin: 56px 0 20px; }
 .why-us { font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: var(--text-on-dark); max-width: none; margin: 0; }
 .site-footer .hours, .info-row .hours { color: #c8ced4; font-size: .95rem; }
+.site-footer h4.mt-28 { margin-top: 28px; }
+.hours .ltr { white-space: nowrap; }
 .prose .btn { margin-top: 12px; }
 
 /* Project details table */
