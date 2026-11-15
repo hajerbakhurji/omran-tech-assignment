@@ -5,7 +5,8 @@
   "functions": {
     "api/chat.py": {
       "maxDuration": 60,
-      "includeFiles": "api/knowledge.md"
+      "includeFiles": "api/knowledge.md",
+      "excludeFiles": "{dist/**,media/**,assets/**,data/**,.idea/**,.github/**}"
     }
   }
 }
